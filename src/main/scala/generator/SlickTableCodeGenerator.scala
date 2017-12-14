@@ -1,4 +1,4 @@
-package example
+package generator
 
 import com.typesafe.config.ConfigFactory
 import slick.codegen.SourceCodeGenerator
