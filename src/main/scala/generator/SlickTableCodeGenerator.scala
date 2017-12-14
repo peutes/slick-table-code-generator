@@ -1,5 +1,6 @@
 package generator
 
+import com.typesafe.config.ConfigFactory
 import slick.driver.MySQLDriver.api._
 import slick.jdbc.MySQLProfile
 import slick.model.Model
@@ -10,7 +11,7 @@ import scala.concurrent.duration.Duration
 
 object SlickTableCodeGenerator extends App {
 
-  val config = com.typesafe.config.ConfigFactory.load
+  val config = ConfigFactory.load
   val tablesName = config.getString("db.name") + "Tables"
 
   val db = Database.forURL(
