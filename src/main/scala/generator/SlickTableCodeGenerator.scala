@@ -11,6 +11,7 @@ import scala.concurrent.duration.Duration
 object SlickTableCodeGenerator extends App {
 
   val config = com.typesafe.config.ConfigFactory.load
+  val tablesName = config.getString("db.name") + "Tables"
 
   val db = Database.forURL(
     config.getString("db.url"),
@@ -23,6 +24,8 @@ object SlickTableCodeGenerator extends App {
   new CustomSourceCodeGenerator(model).writeToFile(
     config.getString("db.slick.driver"),
     config.getString("output.dir"),
-    config.getString("package")
+    config.getString("package.name"),
+    tablesName,
+    tablesName + ".scala"
   )
 }
