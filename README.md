@@ -1,11 +1,16 @@
 
 # Using
-This generate Slick Table code from mysql schema if compile.
-Use `slick-codegen(http://slick.lightbend.com/doc/3.0.0/code-generation.html).
+This application generate Slick Table code from mysql schema.
 
+### Use 
+* http://slick.lightbend.com/doc/3.0.0/code-generation.html
+* https://github.com/tototoshi/slick-joda-mapper
+
+### run
 ```
-sbt compile
+sbt run
 ```
 
+# Configuration
 
-Output file is `target/scala-2.11/src_managed/slick/Tables`
+You can modify conf/application.conf if change db config or output directory.
