@@ -4,7 +4,7 @@ lazy val root = (project in file("."))
   .settings(
     inThisBuild(List(
       scalaVersion := "2.12.4",
-      version := "1.0.3"
+      version := "1.0.4"
     )),
     name := "SlickTableCodeGenerator",
     libraryDependencies ++= List(
