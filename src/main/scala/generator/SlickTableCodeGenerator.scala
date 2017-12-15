@@ -21,7 +21,7 @@ object SlickTableCodeGenerator extends App {
     password = config.getString("db.password")
   )
 
-  val model: Model = Await.result(db.run(MySQLProfile.createModel(None, ignoreInvalidDefaults = false)), Duration.Inf)
+  val model: Model = Await.result(db.run(MySQLProfile.createModel()), Duration.Inf)
   new CustomSourceCodeGenerator(model).writeToFile(
     config.getString("db.slick.profile"),
     config.getString("output.dir"),
