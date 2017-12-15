@@ -23,7 +23,7 @@ object SlickTableCodeGenerator extends App {
 
   val model: Model = Await.result(db.run(MySQLProfile.createModel(None, ignoreInvalidDefaults = false)), Duration.Inf)
   new CustomSourceCodeGenerator(model).writeToFile(
-    config.getString("db.slick.driver"),
+    config.getString("db.slick.profile"),
     config.getString("output.dir"),
     config.getString("package.name"),
     tablesName,
