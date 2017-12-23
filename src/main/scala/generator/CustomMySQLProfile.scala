@@ -27,8 +27,6 @@ class CustomJdbcModelBuilder(mTables: Seq[MTable], ignoreInvalidDefaults: Boolea
   override def createColumnBuilder(tableBuilder: TableBuilder, meta: MColumn): ColumnBuilder = new CustomColumnBuilder(tableBuilder, meta)
 
   class CustomColumnBuilder(tableBuilder: TableBuilder, meta: MColumn) extends ColumnBuilder(tableBuilder, meta) {
-    private def formatDefault(v: Any) =
-      s" default value $v for column ${tableBuilder.namer.qualifiedName.asString}.$name of type $tpe, meta data: " + meta.toString
 
     override def tpe: String = {
 
