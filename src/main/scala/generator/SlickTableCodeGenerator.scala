@@ -1,8 +1,8 @@
 package generator
 
-import com.typesafe.config.ConfigFactory
+import com.typesafe.config.{ Config, ConfigFactory }
 import slick.driver.MySQLDriver.api._
-import slick.jdbc.MySQLProfile
+import slick.driver.MySQLDriver.backend.DatabaseDef
 import slick.model.Model
 
 import scala.concurrent.Await
@@ -11,21 +11,24 @@ import scala.concurrent.duration.Duration
 
 object SlickTableCodeGenerator extends App {
 
-  val config = ConfigFactory.load
-  val tablesName = config.getString("db.name") + "Tables"
+  val config: Config = ConfigFactory.load
+  val outputDir = config.getString("output.dir")
+  val packageName = config.getString("package.name")
+  val tablesName = config.getString("table.name")
 
-  val db = Database.forURL(
-    config.getString("db.url"),
+  val db: DatabaseDef = Database.forURL(
+    url = config.getString("db.url"),
     driver = config.getString("db.jdbc.driver"),
     user = config.getString("db.user"),
     password = config.getString("db.password")
   )
 
-  val model: Model = Await.result(db.run(MySQLProfile.createModel()), Duration.Inf)
+  val model: Model = Await.result(db.run(CustomMySQLProfile.createModel().withPinnedSession), Duration.Inf)
+
   new CustomSourceCodeGenerator(model).writeToFile(
     config.getString("db.slick.profile"),
-    config.getString("output.dir"),
-    config.getString("package.name"),
+    outputDir,
+    packageName,
     tablesName,
     tablesName + ".scala"
   )
