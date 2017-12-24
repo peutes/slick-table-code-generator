@@ -22,25 +22,27 @@ trait CustomJdbcModelComponent extends JdbcModelComponent {
 class CustomJdbcModelBuilder(mTables: Seq[MTable], ignoreInvalidDefaults: Boolean)(implicit ec: ExecutionContext)
   extends JdbcModelBuilder(mTables, ignoreInvalidDefaults) {
 
-  val config: Config = ConfigFactory.load
+  private[this] val config: Config = ConfigFactory.load
+  private[this] val timestampType = config.getString("customType.timestamp")
 
   override def createColumnBuilder(tableBuilder: TableBuilder, meta: MColumn): ColumnBuilder = new CustomColumnBuilder(tableBuilder, meta)
 
   class CustomColumnBuilder(tableBuilder: TableBuilder, meta: MColumn) extends ColumnBuilder(tableBuilder, meta) {
 
-    override def tpe: String = {
+    override def tpe: String =
+      jdbcTypeToScala(meta.sqlType, meta.typeName).toString match {
+        case "java.lang.String" => if (meta.size.contains(1)) "Char" else "String"
+        case "java.sql.Timestamp" =>
 
-      val jdbcType: String = jdbcTypeToScala(meta.sqlType, meta.typeName).toString match {
-        case "java.lang.String"   => if (meta.size.contains(1)) "Char" else "String"
-        case "java.sql.Timestamp" => config.getString("customType.timestamp")
-        case "java.sql.Date"      => config.getString("customType.date")
-        case "java.sql.Time"      => config.getString("customType.time")
-        case jdbcType             => jdbcType
+          // If a [TimeStamp] default value is set such as CURRENT_TIMESTAMP, [Option] is added.
+          rawDefault match {
+            case Some(_) if meta.typeName.toUpperCase == "TIMESTAMP" => s"Option[$timestampType]"
+            case _                                                   => timestampType
+          }
+        case "java.sql.Date" => config.getString("customType.date")
+        case "java.sql.Time" => config.getString("customType.time")
+        case jdbcType        => jdbcType
       }
-
-      // If a [TimeStamp] default value is set such as CURRENT_TIMESTAMP, [Option] is added.
-      rawDefault.fold(jdbcType)(_ => s"Option[$jdbcType]")
-    }
   }
 
 }
