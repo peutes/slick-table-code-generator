@@ -115,6 +115,7 @@ customType = {
 sbt run
 ```
 
-# Use Version
+# Other
+## Used Slick Version
 * "com.typesafe.slick" %% "slick" % "3.2.0",
 * "com.typesafe.slick" %% "slick-codegen" % "3.2.0",
