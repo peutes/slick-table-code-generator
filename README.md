@@ -26,7 +26,7 @@ CREATE TABLE `sample` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ```
 
-Generator output code as.
+Generator automatically generates code as.
 
 ```
   final case class SampleRow(id: Option[Int] = None, text: Option[String], numberDefaultNull: Option[Int], numberWithoutNull: Option[Int], timestampDefaultNull: Option[DateTime], timestampDefaultCurrent: Option[DateTime], timestampDefaultCurrentOnUpdate: Option[DateTime], datetimeWithoutNull: DateTime, datetimeDefaultNull: Option[DateTime], datetimeDefaultCurrent: Option[Option[DateTime]], dateWithoutNull: LocalDate, dateDefaultNull: Option[LocalDate], yearWithoutNull: LocalDate)
