@@ -1,11 +1,13 @@
 # SlickTableCodeGenerator
 This application generate Slick Table code from mysql schema.
+It uses a customized SlickCodeGen.
 
 The feature is
 * This converts `Timestamp`　to `DateTime` of `Joda-Time`, `Date`　to `LocalDate` of `Joda-Time`, `Time` and to `LocalTime` respectivary and uses `Joda-Time`.
 * `Timestamp` default `null` and `CURRENT_TIMESTAMP` can use `Option`. ←←
 * `AUTO_INCREMENT` column such as Id can use `Option`.
 * It is independent of schema and db name.
+* You can customize by editing `application.conf`. For exmaple, you can change output directory, package name, Tables name.
 
 There is a sample table as.
 
